@@ -121,3 +121,19 @@ Best Practice documentation steps:
 CodeGrade will use the same test suite as the test suite included.
 
 Once all tests are passing, commit and push your work using `git` to submit to CodeGrade through Canvas.
+
+## Implemented Solution Details
+
+A secure backend paywall has been implemented to keep track of user page views using Flask sessions:
+
+1.  **Session Tracking**: When a client requests an article via `/articles/<id>`, the server initializes `session['page_views'] = 0` if it doesn't already exist.
+2.  **Access Counting**: The page views counter is incremented on every single article request.
+3.  **Paywall Enforcement**: If the views exceed 3, the server returns a `401 Unauthorized` status code with `{"message": "Maximum pageview limit reached"}`. Otherwise, it returns the article JSON payload.
+4.  **Reset Mechanism**: The `/clear` endpoint resets `session['page_views']` back to 0 so users can browse articles again.
+
+### Tests Status
+All unit tests are fully passing:
+```bash
+$ pytest
+============================== 3 passed in 0.93s ===============================
+```
